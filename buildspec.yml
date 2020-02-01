@@ -1,0 +1,14 @@
+version: 0.2 
+ 
+phases: 
+  pre_build: 
+    commands: 
+     - New-Item -ItemType Junction -Path C:\Src -Value $Env:CODEBUILD_SRC_DIR 
+     - cd C:\Src   
+     - nuget.exe restore 
+  build: 
+    commands: 
+     - msbuild /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:PackageLocation="Artifacts.zip"
+artifacts: 
+    files: 
+    - 'Artifacts.zip'
